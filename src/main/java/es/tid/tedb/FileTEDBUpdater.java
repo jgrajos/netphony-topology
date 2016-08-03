@@ -744,7 +744,6 @@ public class FileTEDBUpdater {
 		Object d_router_id_addr = null;
 		Object src_Numif_id = null;
 		Object dst_Numif_id = null;
-
 		Hashtable<Inet4Address,DomainTEDB> TEDBs = new Hashtable<Inet4Address,DomainTEDB>();
 		//First, create the graph
 		
@@ -795,9 +794,43 @@ public class FileTEDBUpdater {
 					for (int k = 0; k < nodes_domain_id.getLength(); k++) {
 						Element domain_id_e = (Element) nodes_domain_id.item(0);
 						domain_id = getCharacterDataFromElement(domain_id_e);
-						log.info("Looking for nodes in domain: " + domain_id);
+						log.info("Looking for nodes in domain: " + domain_id);						
 					}
-
+					
+					
+					////////////////////////////77
+					NodeList itResourcesElement = element1.getElementsByTagName("it_resources");
+					System.out.println(" --- ---------------------------leyendo dominios fuera del for: "+ domain_id);
+					for (int i = 0; i < itResourcesElement.getLength(); i++) {
+						Element element = (Element) itResourcesElement.item(i);
+						
+						NodeList itResourcesCpuList = element.getElementsByTagName("cpu");
+						Element itResourcesCpuElement = (Element) itResourcesCpuList.item(0);
+						String itResourcesCpu = getCharacterDataFromElement(itResourcesCpuElement);
+						
+						NodeList itResourcesMemList = element.getElementsByTagName("mem");
+						Element itResourcesMemElement = (Element) itResourcesMemList.item(0);
+						String itResourcesMem = getCharacterDataFromElement(itResourcesMemElement);
+						
+						NodeList itResourcesStorageList = element.getElementsByTagName("storage");
+						Element itResourcesStorageElement = (Element) itResourcesStorageList.item(0);
+						String itResourcesStorage = getCharacterDataFromElement(itResourcesStorageElement);
+												
+						IT_Resources itResources = new IT_Resources();
+						if (itResourcesCpu!=null) itResources.setCpu(itResourcesCpu);
+						if (itResourcesMem!=null) itResources.setMem(itResourcesMem);
+						if (itResourcesStorage!=null) itResources.setStorage(itResourcesStorage);
+						
+						
+						tedb.setItResources(itResources);
+						System.out.println(" --- ---------------------------Probando antes de mostrar resources");
+						System.out.println(" --- ---------------------------leyendo resources cpu: "+ tedb.getItResources().getCpu());
+						System.out.println(" --- ---------------------------leyendo resources mem: "+ tedb.getItResources().getMem());
+						System.out.println(" --- ---------------------------leyendo resources storage: "+ tedb.getItResources().getStorage());
+						
+					}
+					
+					////////////////////////77
 					NodeList nodes = element1.getElementsByTagName("node");
 					for (int i = 0; i < nodes.getLength(); i++) {
 						Element element = (Element) nodes.item(i);
@@ -832,6 +865,7 @@ public class FileTEDBUpdater {
 
 					}
 				}
+				
 				tedb.setNetworkGraph(graph);
 				tedb.setDomainID((Inet4Address) Inet4Address.getByName(domain_id));
 				TEDBs.put((Inet4Address) Inet4Address.getByName(domain_id),tedb);
@@ -2393,6 +2427,7 @@ public class FileTEDBUpdater {
 			/*byte[] domainReachabilityIPv4Prefix,*/ ReachabilityEntry reachabilityEntry,String layer) {
 		Logger log = LoggerFactory.getLogger("PCEPServer");
 		log.info("Initializng reachability from " + fileName);
+		System.out.println("probandoooo Initializng reachability from " + fileName);
 		File file = new File(fileName);
 		try {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance()

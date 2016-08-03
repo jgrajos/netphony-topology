@@ -10,6 +10,13 @@
 			<prefix>29</prefix>
 		</reachability_entry>
 
+
+        <it_resources>
+        	<cpu>100cpu</cpu>
+            <mem>100mem</mem>
+            <storage>100storage</storage>
+        </it_resources>
+
 		<node>
 			<router_id>172.16.101.101</router_id>
 		</node>
@@ -175,6 +182,14 @@
 			<ipv4_address>172.16.102.0</ipv4_address>
 			<prefix>29</prefix>
 		</reachability_entry>
+
+
+        <it_resources>
+        	<cpu>222cpu</cpu>
+            <mem>222mem</mem>
+            <storage>222storage</storage>
+        </it_resources>
+
 		<node>
 			<router_id>172.16.102.101</router_id>
 		</node>
